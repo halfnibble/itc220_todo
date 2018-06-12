@@ -22,8 +22,14 @@ def list_view():
         FROM todo;
         """
     cursor.execute(query)
+    my_todos = []
+    for id, name in cursor:
+        my_todos.append({
+            'id': id,
+            'name': name
+        })
     context = {
-        'todos': list(cursor)
+        'todos': my_todos
     }
     return render_template('list_view.html', context=context)
 
