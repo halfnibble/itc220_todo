@@ -24,10 +24,13 @@ def list_view():
         """
     cursor.execute(query)
     my_todos = []
-    for id, name in cursor:
+    for id, name, location, first_name, last_name in cursor:
         my_todos.append({
             'id': id,
-            'name': name
+            'name': name,
+            'location': location,
+            'first_name': first_name,
+            'last_name': last_name,
         })
     context = {
         'todos': my_todos
@@ -42,8 +45,8 @@ def list_view():
 
 # @app.route('/submit', methods=['POST'])
 # def submit_view():
-    # request.form['noun1']
-    # return render_template('submit.html', context=context)
+#     request.form['noun1']
+#     return render_template('submit.html', context=context)
 
 
 if __name__ == '__main__':
