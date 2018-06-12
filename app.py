@@ -18,8 +18,9 @@ cursor = connection.cursor()
 @app.route('/')
 def list_view():
     query = """
-        SELECT id, name
-        FROM todo;
+        SELECT t.id, t.name, t.location, u.first_name, u.last_name
+        FROM todo t LEFT JOIN user u
+        ON t.created_by = u.id;
         """
     cursor.execute(query)
     my_todos = []

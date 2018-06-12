@@ -13,22 +13,41 @@
 <body>
     <h1>ToDo List</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">Name</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for todo in context.todos  %}
-                <tr>
-                    <td>
-                        {{ todo.name }}
-                    </td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <main class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Task ID</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Location</th>
+                            <th scope="col">Created By</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for todo in context.todos  %}
+                            <tr>
+                                <td>
+                                    {{ todo.id }}
+                                </td>
+                                <td>
+                                    {{ todo.name }}
+                                </td>
+                                <td>
+                                    {{ todo.location }}
+                                </td>
+                                <td>
+                                    {{ todo.first_name }} {{ todo.last_name}}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+    
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
