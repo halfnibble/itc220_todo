@@ -42,7 +42,7 @@ def list_view():
 def login_view():
     query = """
         SELECT u.id, u.first_name, u.last_name
-        FROM users u LEFT JOIN identity i
+        FROM user u LEFT JOIN identity i
         ON i.user_id = u.id
         WHERE i.id IS NOT NULL
         """
