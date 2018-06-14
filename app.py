@@ -112,9 +112,8 @@ def post_login():
 def post_create():
     user_id = request.form['user_id']
     passphrase = request.form['passphrase']
-    name = request.form('name')
-    location = request.form('location')
-
+    name = request.form['name']
+    location = request.form['location']
     if is_valid_login(user_id=user_id, passphrase=passphrase):
         result = insert_todo(
             created_by=user_id,
