@@ -36,7 +36,7 @@ def is_valid_login(user_id=None, passphrase=''):
         SELECT id
         FROM identity
         WHERE user_id = %s
-        AND passhprase = %s
+        AND passphrase = %s
         """
     cursor.execute(query, (user_id, passphrase))
     if len(cursor):
@@ -93,15 +93,30 @@ def post_login():
         }
         return render_template('login.html', context=context)
 
-# @app.route('/create')
-# def create_view():
-#     return render_template('create.html')
 
+@app.route('/post_create', methods=['POST'])
+def post_create():
+    user_id = request.form['user_id']
+    passphrase = request.form['passphrase']
+    name = request.form('name')
+    location = request.form('location')
 
-# @app.route('/submit', methods=['POST'])
-# def submit_view():
-#     request.form['noun1']
-#     return render_template('submit.html', context=context)
+    if is_valid_login(user_id=user_id, passphrase=passphrase):
+        # Insert new ToDo
+        context = {
+            'user_id': user_id,
+            'passphrase': passphrase,
+            'message': 'One New ToDo Created!'
+        }
+        return render_template('create.html', context=context)
+    else:
+        context = {
+            'users': get_login_users(),
+            'message': 'Bad credentials',
+        }
+        return render_template('login.html', context=context)
+
+    return render_template('create.html', context=context)
 
 
 if __name__ == '__main__':
