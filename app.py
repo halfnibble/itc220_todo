@@ -124,8 +124,11 @@ def post_create():
         context = {
             'user_id': user_id,
             'passphrase': passphrase,
-            'message': 'One New ToDo Created! Debug: {0}.'.format(result)
         }
+        if result:
+            context['message'] = 'One new ToDo created!'
+        else:
+            context['message'] = 'ToDo was NOT added for unknown reasons.'
         return render_template('create.html', context=context)
     else:
         context = {
@@ -133,8 +136,6 @@ def post_create():
             'message': 'Bad credentials',
         }
         return render_template('login.html', context=context)
-
-    return render_template('create.html', context=context)
 
 
 if __name__ == '__main__':
