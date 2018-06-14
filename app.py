@@ -48,7 +48,7 @@ def is_valid_login(user_id=None, passphrase=''):
 
 def insert_todo(created_by=None, name=None, location=None):
     query = """
-        INSERT INTO user (created_by, name, location)
+        INSERT INTO todo (created_by, name, location)
         VALUES (%s, %s, %s)
         """
     cursor.execute(query, (created_by, name, location))
