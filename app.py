@@ -53,7 +53,7 @@ def insert_todo(created_by=None, name=None, location=None):
         """
     cursor.execute(query, (created_by, name, location))
     connection.commit()
-    new_id = connection.insert_id()
+    new_id = cursor.lastrowid
     if new_id:
         return True
     else:
