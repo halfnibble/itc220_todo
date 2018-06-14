@@ -15,6 +15,36 @@ connection = mysql.connector.connect(
 cursor = connection.cursor()
 
 
+def get_login_users():
+    query = """
+        SELECT u.id, u.first_name, u.last_name
+        FROM user u LEFT JOIN identity i
+        ON i.user_id = u.id
+        WHERE i.id IS NOT NULL
+        """
+    cursor.execute(query)
+    users = [{
+        'id': id,
+        'first_name': first_name,
+        'last_name': last_name
+    } for id, first_name, last_name in cursor]
+    return users
+
+
+def is_valid_login(user_id=None, passphrase=''):
+    query = """
+        SELECT id
+        FROM identity
+        WHERE user_id = %s
+        AND passhprase = %s
+        """
+    cursor.execute(query, (user_id, passphrase))
+    if len(cursor):
+        return True
+    else:
+        return False
+
+
 @app.route('/')
 def list_view():
     query = """
@@ -40,25 +70,28 @@ def list_view():
 
 @app.route('/login')
 def login_view():
-    query = """
-        SELECT u.id, u.first_name, u.last_name
-        FROM user u LEFT JOIN identity i
-        ON i.user_id = u.id
-        WHERE i.id IS NOT NULL
-        """
-    cursor.execute(query)
-    users = [{
-        'id': id,
-        'first_name': first_name,
-        'last_name': last_name
-    } for id, first_name, last_name in cursor]
-
     context = {
-        'users': users
+        'users': get_login_users()
     }
-
     return render_template('login.html', context=context)
 
+
+@app.route('/post_login', methods=['POST'])
+def post_login():
+    user_id = request.form['user_id']
+    passphrase = request.form['passphrase']
+    if is_valid_login(user_id=user_id, passphrase=passphrase):
+        context = {
+            'user_id': user_id,
+            'passphrase': passphrase,
+        }
+        return render_template('create.html', context=context)
+    else:
+        context = {
+            'users': get_login_users(),
+            'message': 'Bad credentials',
+        }
+        return render_template('login.html', context=context)
 
 # @app.route('/create')
 # def create_view():

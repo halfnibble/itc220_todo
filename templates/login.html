@@ -16,8 +16,17 @@
         <div class="row justify-content-center">
             <div class="col-md-10 col-lg-8">
                 <h1>Login</h1>
+
+                {% if context.message %}
+                <div class="alert alert-error alert-dismissible fade show" role="alert">
+                    <strong>Error!</strong> {{ context.message}}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                {% endif %}
                 
-                <form>
+                <form method="POST" action="/post_login" accept-charset="utf-8">
                     <div class="form-group row">
                         <label for="user_id" class="col-sm-2 col-form-label">User</label>
 
@@ -47,5 +56,8 @@
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+        $('.alert').alert();
+    </script>
 </body>
 </html>
