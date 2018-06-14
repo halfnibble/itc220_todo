@@ -38,6 +38,28 @@ def list_view():
     return render_template('list_view.html', context=context)
 
 
+@app.route('/login')
+def login_view():
+    query = """
+        SELECT u.id, u.first_name, u.last_name
+        FROM users u LEFT JOIN identity i
+        ON i.user_id = u.id
+        WHERE i.id IS NOT NULL
+        """
+    cursor.execute(query)
+    users = [{
+        'id': id,
+        'first_name': first_name,
+        'last_name': last_name
+    } for id, first_name, last_name in cursor]
+
+    context = {
+        'users': users
+    }
+
+    return render_template('login.html', context=context)
+
+
 # @app.route('/create')
 # def create_view():
 #     return render_template('create.html')
