@@ -51,11 +51,12 @@ def insert_todo(created_by=None, name=None, location=None):
         INSERT INTO user (created_by, name, location)
         VALUES (%s, %s, %s)
         """
-        cursor.execute(query, (created_by, name, location))
-        if len(cursor):
-            return True
-        else:
-            return False
+    cursor.execute(query, (created_by, name, location))
+    new_id = connection.insert_id()
+    if new_id:
+        return True
+    else:
+        return False
 
 
 @app.route('/')
