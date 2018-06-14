@@ -33,16 +33,29 @@ def get_login_users():
 
 def is_valid_login(user_id=None, passphrase=''):
     query = """
-        SELECT id
+        SELECT COUNT(id)
         FROM identity
         WHERE user_id = %s
         AND passphrase = %s
         """
     cursor.execute(query, (user_id, passphrase))
-    if len(cursor):
+    result = cursor.fetchone()
+    if result[0] > 0:
         return True
     else:
         return False
+
+
+def insert_todo(created_by=None, name=None, location=None):
+    query = """
+        INSERT INTO user (created_by, name, location)
+        VALUES (%s, %s, %s)
+        """
+        cursor.execute(query, (created_by, name, location))
+        if len(cursor):
+            return True
+        else:
+            return False
 
 
 @app.route('/')
@@ -102,11 +115,15 @@ def post_create():
     location = request.form('location')
 
     if is_valid_login(user_id=user_id, passphrase=passphrase):
-        # Insert new ToDo
+        result = insert_todo(
+            created_by=user_id,
+            name=name,
+            location=location,
+        )
         context = {
             'user_id': user_id,
             'passphrase': passphrase,
-            'message': 'One New ToDo Created!'
+            'message': 'One New ToDo Created! Debug: {0}.'.format(result)
         }
         return render_template('create.html', context=context)
     else:
